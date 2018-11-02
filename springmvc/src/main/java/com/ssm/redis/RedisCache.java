@@ -27,6 +27,7 @@ public class RedisCache{
         return redisClient.expire(key.toString(), 0);
     }
  
+    //创建redis连接池
     protected static Jedis createClient() {
  
         try {
