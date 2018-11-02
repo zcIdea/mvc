@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:aop="http://www.springframework.org/schema/aop"  
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+						http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-4.1.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+
+    <!-- 配置数据库相关参数，引入配置文件-->
+    <context:property-placeholder location="classpath:*.properties"/>
+    
+    <!--
+	   1.在applicationContext.xml中配置如下
+	
+	    <context:component-scan base-package="com.login" />
+	    
+	　　  2.在spring-servlet.xml中配置如下
+	
+	    <context:component-scan base-package="com.sohu.login.web" />
+	　　    此时启动正常，请求正常，事物也正常了。
+	      
+	　　结论：在spring-servlet.xml中只需要扫描所有带@Controller注解的类，
+	                    在applicationContext中可以扫描所有其他带有注解的类（也可以过滤掉带@Controller注解的类）
+	       * 两个配置文件不能配置相同的包路劲，要区别开来。
+    
+      -->
+    
+    <!-- 注解扫描包 (包括切面注解@Aspect)-->
+    <context:component-scan base-package="com.springmvc.*" />
+    
+    <!-- 自动为切面方法中匹配的方法所在的类生成代理对象。找到切面类 -->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+	<!-- 1. 数据源 : DriverManagerDataSource -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@10.2.8.26:1521:orcl" />
+		<property name="username" value="MHMZZK" />
+		<property name="password" value="MHMZZK" />
+	</bean>
+
+	<!-- 2. mybatis 的 SqlSession 的工厂: SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 指定Mybatis全局配置文件的位置 -->
+        <property name="configLocation" value="classpath:mybatis-conf.xml"></property>
+		<!-- <property name="typeAliasesPackage" value="com.atuigu.spring_mybatis2.domain" 
+			/> -->
+		<!-- 扫描sql配置文件：mapper需要的xml文件 -->	
+		<property name="mapperLocations" value="classpath:com/springmvc/dao/*.xml"></property>
+	</bean>
+	
+	<!-- 3. mybatis 自动扫描加载 Sql 映射文件 : MapperScannerConfigurer -->
+	<!-- 配置扫描Dao接口包，动态实现DAO接口，注入到Spring容器中 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	    <!-- 给出需要扫描的Dao接口所在的包路径 -->
+		<property name="basePackage" value="com.springmvc.dao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- 4. 事务管理 : DataSourceTransactionManager -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 5. 使用声明式事务 -->
+	<!--配置基于注解的声明式事务,默认使用注解来管理事务行为-->
+	<!-- <tx:annotation-driven transaction-manager="txManager" /> -->
+	
+	<!-- 基于AspectJ的声明式事务  -->
+    <!-- 配置事物增强,事物如何切入， 配置基于xml的声明式事务-->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <!--    所有方法都是事物方法 -->
+            <tx:method name="*"/>
+            <!--  以get开始的所有方法 -->
+            <tx:method name="get*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+    
+	<!-- 配置拦截service -->
+    <aop:config>
+        <aop:pointcut id="txPoint" expression="execution(* com.springmvc.service..*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint"/>
+    </aop:config>
+
+	
+
+</beans>

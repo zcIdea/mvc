@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
+ 
+ 
+   <!-- 加载注解扫描， 配置Spring的注解  如Autowired
+	                 依赖的类	                                                                                                                              注解
+	   CommonAnnotationBeanPostProcessor	         @Resource 、@PostConstruct、@PreDestroy
+	   PersistenceAnnotationBeanPostProcessor的Bean	 @PersistenceContext
+	   AutowiredAnnotationBeanPostProcessor Bean	 @Autowired
+	   RequiredAnnotationBeanPostProcessor	         @Required
+   -->
+   <!-- <context:annotation-config/> -->
+   
+   <!-- 
+       <context:component-scan/> 配置项不但启用了对类包进行扫描以实施注释驱动 Bean 定义的功能，
+                        同时还启用了注释驱动自动注入的功能（即还隐式地在内部注册了 AutowiredAnnotationBeanPostProcessor 和 CommonAnnotationBeanPostProcessor），
+                           因此当使用 <context:component-scan/> 后，就可以将 <context:annotation-config/> 移除了。
+    -->
+   <!-- 扫描范围 （包括了<context:annotation-config/>这个内容）-->
+   <context:component-scan base-package="com.springmvc.controller"/>
+    
+   <!-- 使用默认的注解映射， 配置Springmvc 注解，如controller，返回的json。。。-->
+   <mvc:annotation-driven />
+   
+   <!-- 配置视图解析器 --> 
+   <bean
+       class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+       <property name="prefix">
+           <value>/WEB-INF/pages/</value>
+       </property>
+       <property name="suffix">
+           <value>.jsp</value>
+       </property>       
+   </bean>
+   
+   <!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
+    <!-- <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        默认编码
+        <property name="defaultEncoding" value="utf-8" />
+        文件大小最大值
+        <property name="maxUploadSize" value="10485760000" />
+        内存中的最大值
+        <property name="maxInMemorySize" value="40960" />
+    </bean> -->
+   
+</beans>

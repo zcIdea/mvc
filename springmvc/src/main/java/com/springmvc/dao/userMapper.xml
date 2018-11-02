@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper  PUBLIC  "-//mybatis.org//DTD  Mapper  3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.dao.UserDao">
+
+   <select id="getUserById" parameterType="int" resultType="com.springmvc.entry.User">
+      select * from huge_mach t where id=#{id}
+   </select>
+   
+   <insert id="saveUser" parameterType="com.springmvc.entry.User">
+     insert into huge_mach(id,much) values(#{id},#{much});
+   </insert>
+
+
+</mapper>
