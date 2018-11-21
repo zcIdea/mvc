@@ -66,5 +66,11 @@
        <servlet-name>spring-mvc</servlet-name>
        <url-pattern>/</url-pattern>
    </servlet-mapping>
+   
+   <taglib>
+	   <taglib-uri>http://mytag.sf.net</taglib-uri>
+	   <taglib-location>/WEB-INF/tld/myTag.tld</taglib-location>
+   </taglib>
+	   
   
 </web-app>
