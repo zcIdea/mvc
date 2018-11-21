@@ -67,10 +67,14 @@
        <url-pattern>/</url-pattern>
    </servlet-mapping>
    
-   <taglib>
-	   <taglib-uri>http://mytag.sf.net</taglib-uri>
-	   <taglib-location>/WEB-INF/tld/myTag.tld</taglib-location>
-   </taglib>
+   <!-- 自定义标签 -->
+	<jsp-config>
+	    <taglib>
+			<taglib-uri>/custom</taglib-uri>
+			<taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
+	    </taglib>
+	</jsp-config>
+
 	   
   
 </web-app>

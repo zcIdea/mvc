@@ -29,6 +29,13 @@ public class SpringMvcController {
 		
 		return "index";
 	}
+	@RequestMapping(value="/tldDemo")
+	public String tldDemo(Model model){
+		
+		model.addAttribute("springmvc", "nihao!");
+		
+		return "tldDemo";
+	}
 	
 	@RequestMapping(value="/hello/{id}",method=RequestMethod.GET)
 	@ResponseBody
