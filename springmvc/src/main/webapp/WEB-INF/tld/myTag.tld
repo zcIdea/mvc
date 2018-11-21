@@ -8,6 +8,8 @@
 	<uri>http://mytag.sf.net</uri>
 	<info>我的示例标签库</info>
 	
+	
+	
 	<tag>
 		<name>demo.Viewport</name>
 		<tagclass>com.myapp.web.tag.DemoViewTag</tagclass>
@@ -24,4 +26,28 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>	
 	</tag>
+	
+	<tag>
+	    <name>Hello</name>
+	    <tag-class>com.myapp.web.tag.HelloTag</tag-class>
+	    <body-content>empty</body-content>
+	</tag>
+	
+	<tag>
+	    <name>formatNumber</name>
+	    <tag-class>com.myapp.web.tag.FormatNumberTag</tag-class>
+	    <bodycontent>JSP</bodycontent>
+		<info>数字标签</info>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
 </taglib>

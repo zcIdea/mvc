@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://mytag.sf.net" prefix="myTag"%> 
+<%@ taglib uri="/formatNumber/fm" prefix="fm"%> 
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -23,5 +24,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     This is my JSP page. <br>
     <myTag:demo.Viewport northTitle="南" westTitle="西"></myTag:demo.Viewport>
+    <fm:formatNumber type="number" value="123321"></fm:formatNumber>
+    <fm:formatNumber type="String" value="123321"></fm:formatNumber>
+    
   </body>
 </html>

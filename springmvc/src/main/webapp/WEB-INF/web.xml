@@ -70,8 +70,12 @@
    <!-- 自定义标签 -->
 	<jsp-config>
 	    <taglib>
-			<taglib-uri>/custom</taglib-uri>
-			<taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
+			<taglib-uri>http://mytag.sf.net</taglib-uri>
+			<taglib-location>/WEB-INF/tld/myTag.tld</taglib-location>
+	    </taglib>
+	    <taglib>
+			<taglib-uri>/formatNumber/fm</taglib-uri>
+			<taglib-location>/WEB-INF/tld/myTag.tld</taglib-location>
 	    </taglib>
 	</jsp-config>
 
